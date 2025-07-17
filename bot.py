@@ -1,6 +1,6 @@
 import telebot
 
-TOKEN = "8033337378:AAFp2M4y2v6MwTLhK2FA8AqAzLJ9qtcBV4A"
+TOKEN = "8097697242:AAE_Q0wWH_BNP2grnq88xF8tjmhfNNLNEXI "
 bot = telebot.TeleBot(TOKEN)
 
 AFFILIATE_LINK = "https://refpa3267686.top/L?tag=d_905607m_1622c_2023&site=905607&ad=1622"
