@@ -1,45 +1,34 @@
-import telebot
+from telebot import TeleBot, types
 
-TOKEN = "8097697242:AAE_Q0wWH_BNP2grnq88xF8tjmhfNNLNEXI "
-bot = telebot.TeleBot(TOKEN)
-
-AFFILIATE_LINK = "https://refpa3267686.top/L?tag=d_905607m_1622c_2023&site=905607&ad=1622"
-PROMO_CODE = "Oxy11"
-CONTACT_INFO = "+8801826444505 (WhatsApp & Telegram)"
+bot = TeleBot("8097697242:AAE_Q0wWH_BNP2grnq88xF8tjmhfNNLNEXI")
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    bot.send_message(
-        message.chat.id,
-        f"""👋 স্বাগতম {message.from_user.first_name}!
-
-🎯 আপনি এখন 1xBet অফিশিয়াল সাব এজেন্টের সাথে আছেন।
-
-🔗 অ্যাকাউন্ট খুলতে নিচের বাটনে ক্লিক করুন:
-👉 {AFFILIATE_LINK}
-
-🎁 Promo Code: {PROMO_CODE}
-💰 100% বোনাস প্রথম ডিপোজিটে!
-
-📞 যোগাযোগ: {CONTACT_INFO}
-""",
-        reply_markup=main_menu()
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup.row(
+        types.KeyboardButton("/promo"),
+        types.KeyboardButton("/join")
     )
+    markup.row(
+        types.KeyboardButton("/offer"),
+        types.KeyboardButton("/contact")
+    )
+    bot.send_message(message.chat.id, "👋 স্বাগতম! নিচের অপশন থেকে বেছে নিন:", reply_markup=markup)
 
-def main_menu():
-    markup = telebot.types.InlineKeyboardMarkup()
-    markup.add(telebot.types.InlineKeyboardButton("🟢 1xBet এ অ্যাকাউন্ট খুলুন", url=AFFILIATE_LINK))
-    markup.add(telebot.types.InlineKeyboardButton("🎁 Promo Code: Oxy11", callback_data="promo"))
-    markup.add(telebot.types.InlineKeyboardButton("📞 যোগাযোগ করুন", callback_data="contact"))
-    return markup
+@bot.message_handler(commands=['promo'])
+def promo(message):
+    bot.send_message(message.chat.id, "🎁 আজকের প্রমো কোড: OXY11")
 
-@bot.callback_query_handler(func=lambda call: True)
-def handle_query(call):
-    if call.data == "promo":
-        bot.answer_callback_query(call.id)
-        bot.send_message(call.message.chat.id, f"🎁 আপনার Promo Code: {PROMO_CODE}")
-    elif call.data == "contact":
-        bot.answer_callback_query(call.id)
-        bot.send_message(call.message.chat.id, f"📞 যোগাযোগ: {CONTACT_INFO}")
+@bot.message_handler(commands=['join'])
+def join(message):
+    bot.send_message(message.chat.id, "✅ সাব-এজেন্ট হতে এই ফর্ম পূরণ করুন:\nhttps://your-form-link.com")
+
+@bot.message_handler(commands=['offer'])
+def offer(message):
+    bot.send_message(message.chat.id, "🔥 আজকের অফার: প্রথম ডিপোজিটে 100% বোনাস!")
+
+@bot.message_handler(commands=['contact'])
+def contact(message):
+    bot.send_message(message.chat.id, "📞 যোগাযোগ করুন:\n📱 WhatsApp: +8801826444505\n💬 Telegram: @sajibvai")
 
 bot.infinity_polling()
